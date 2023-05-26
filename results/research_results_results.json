@@ -1,0 +1,50 @@
+{
+  "M3FEND": {
+    "test_gossipcop_loss_epoch": 0.7090657949447632,
+    "test_gossipcop_accuracy_epoch": 0.0,
+    "test_politifact_loss_epoch": 0.6774759888648987,
+    "test_politifact_accuracy_epoch": 1.0,
+    "test_loss_epoch": 0.7016619443893433,
+    "test_acc_epoch": 0.234375,
+    "test_f1_epoch": 0.37974682450294495,
+    "test_auc_epoch": 0.48894557823129253,
+    "test_recall_epoch": 1.0,
+    "test_precision_epoch": 0.234375
+  },
+  "MDFEND": {
+    "test_gossipcop_loss_epoch": 0.6870176196098328,
+    "test_gossipcop_accuracy_epoch": 0.9591836333274841,
+    "test_politifact_loss_epoch": 0.6984800100326538,
+    "test_politifact_accuracy_epoch": 0.13333334028720856,
+    "test_loss_epoch": 0.689704179763794,
+    "test_acc_epoch": 0.765625,
+    "test_f1_epoch": 0.21052633225917816,
+    "test_auc_epoch": 0.5636054421768707,
+    "test_recall_epoch": 0.13333334028720856,
+    "test_precision_epoch": 0.5
+  },
+  "DualEmotion": {
+    "test_gossipcop_loss_epoch": 0.7439329624176025,
+    "test_gossipcop_accuracy_epoch": 0.3163265287876129,
+    "test_politifact_loss_epoch": 0.6808222532272339,
+    "test_politifact_accuracy_epoch": 0.6666666865348816,
+    "test_loss_epoch": 0.729141354560852,
+    "test_acc_epoch": 0.3984375,
+    "test_f1_epoch": 0.34188035130500793,
+    "test_auc_epoch": 0.4853741496598639,
+    "test_recall_epoch": 0.6666666865348816,
+    "test_precision_epoch": 0.2298850566148758
+  },
+  "moSEM": {
+    "test_gossipcop_loss_epoch": 0.6640009880065918,
+    "test_gossipcop_accuracy_epoch": 1.0,
+    "test_politifact_loss_epoch": 0.721933901309967,
+    "test_politifact_accuracy_epoch": 0.0,
+    "test_loss_epoch": 0.6775790452957153,
+    "test_acc_epoch": 0.765625,
+    "test_f1_epoch": 0.0,
+    "test_auc_epoch": 0.5401360544217687,
+    "test_recall_epoch": 0.0,
+    "test_precision_epoch": 0.0
+  }
+}
