@@ -89,7 +89,5 @@ class ModelFactory:
                     save_param_dir=self.save_param_dir,
                     bert=self.bert,
                 ),
-                BestMetricCallback(
-                    save_dir=self.save_param_dir, model_name="DualEmotion"
-                ),
+                BestMetricCallback(save_dir=self.save_param_dir, model_name="moSEM"),
             )

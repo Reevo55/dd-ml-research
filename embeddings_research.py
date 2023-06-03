@@ -1,18 +1,16 @@
 import pytorch_lightning as pl
 import torch
 from transformers import (
-    GPT2Tokenizer,
-    GPT2Model,
     XLMRobertaTokenizer,
     XLMRobertaModel,
-    AutoTokenizer,
-    XLMRobertaXLModel,
     BigBirdTokenizer,
     BigBirdModel,
     ElectraTokenizer,
     ElectraModel,
-    RobertaTokenizer,
-    RobertaModel,
+    DebertaTokenizer,
+    DebertaModel,
+    AlbertTokenizer,
+    AlbertModel,
 )
 from factories.ModelFactory import ModelFactory
 from dataloader.MyDataloader import MyDataloader
@@ -103,28 +101,26 @@ if __name__ == "__main__":
     # Define the models, tokenizers, and BERT models to research
     models = ["M3FEND", "MDFEND", "DualEmotion", "moSEM"]
     tokenizers = [
-        XLMRobertaTokenizer.from_pretrained("xlm-roberta-base"),
-        AutoTokenizer.from_pretrained("roberta-base"),
         BigBirdTokenizer.from_pretrained("google/bigbird-roberta-base"),
         ElectraTokenizer.from_pretrained("google/electra-base-discriminator"),
-        RobertaTokenizer.from_pretrained("roberta-base"),
-        GPT2Tokenizer.from_pretrained("gpt2"),
+        XLMRobertaTokenizer.from_pretrained("xlm-roberta-base"),
+        DebertaTokenizer.from_pretrained("microsoft/deberta-base"),
+        AlbertTokenizer.from_pretrained("albert-base-v2"),
     ]
     bert_models = [
-        XLMRobertaModel.from_pretrained("xlm-roberta-base")
-        .requires_grad_(False)
-        .to("cuda"),
-        XLMRobertaXLModel.from_pretrained("roberta-large")
-        .requires_grad_(False)
-        .to("cuda"),
         BigBirdModel.from_pretrained("google/bigbird-roberta-base")
         .requires_grad_(False)
         .to("cuda"),
         ElectraModel.from_pretrained("google/electra-base-discriminator")
         .requires_grad_(False)
         .to("cuda"),
-        RobertaModel.from_pretrained("roberta-base").requires_grad_(False).to("cuda"),
-        GPT2Model.from_pretrained("gpt2").requires_grad_(False).to("cuda"),
+        XLMRobertaModel.from_pretrained("xlm-roberta-base")
+        .requires_grad_(False)
+        .to("cuda"),
+        DebertaModel.from_pretrained("microsoft/deberta-base")
+        .requires_grad_(False)
+        .to("cuda"),
+        AlbertModel.from_pretrained("albert-base-v2").requires_grad_(False).to("cuda"),
     ]
 
     all_results = {}

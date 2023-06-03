@@ -2,13 +2,17 @@ import os
 import pytorch_lightning as pl
 from transformers import RobertaTokenizer
 from factories.ModelFactory import ModelFactory
-
+from transformers import (
+    RobertaTokenizer,
+    RobertaModel,
+)
 import torch
 import torch.multiprocessing as mp
 from pytorch_lightning.loggers import TensorBoardLogger
 from transformers import RobertaConfig, RobertaModel
 
 from dataloader.MyDataloader import MyDataloader
+from utils.utils import save_results
 
 torch.set_float32_matmul_precision("medium")
 
@@ -20,10 +24,11 @@ dropout = 0.2
 weight_decay = 0.0001
 save_param_dir = "./params"
 max_len = 170
-epochs = 10
+epochs = 50
 
-batch_size = 128
-subset_size = 128 * 128
+batch_size = 64
+subset_size = 128
+# subset_size = None
 category_dict = {
     "gossipcop": 0,
     "politifact": 1,
@@ -41,7 +46,7 @@ if __name__ == "__main__":
         os.makedirs(save_param_dir)
 
     tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
-    bert = RobertaModel.from_pretrained("roberta-base").requires_grad_(False).to("cuda")
+    bert = RobertaModel.from_pretrained("roberta-base").requires_grad_(False)
 
     loader = MyDataloader(
         max_len=max_len,
@@ -75,9 +80,7 @@ if __name__ == "__main__":
     if callback is not None:
         callbacks.append(callback)
 
-    logger = TensorBoardLogger(
-        save_dir="logs", name="my_experiment", version=model_name
-    )
+    logger = TensorBoardLogger(save_dir="logs", name="single_runs", version=model_name)
     trainer = pl.Trainer(
         max_epochs=epochs, accelerator="gpu", logger=logger, callbacks=callbacks
     )
@@ -86,3 +89,5 @@ if __name__ == "__main__":
     result = trainer.test(model, dataloaders=test_loader)
 
     print("Results:", result[0])
+
+    save_results("single_research_results", model_name=model_name, results=result[0])

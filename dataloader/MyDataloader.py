@@ -28,7 +28,6 @@ def df_filter(df_data, category_dict):
 def word2input(texts, max_len, tokenizer):
     encoding = tokenizer(
         texts.tolist(),
-        pad_token="[PAD]",
         return_tensors="pt",
         padding="max_length",
         truncation=True,
