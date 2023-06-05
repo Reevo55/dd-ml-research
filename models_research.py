@@ -18,10 +18,12 @@ dropout = 0.2
 weight_decay = 0.0001
 save_param_dir = "./params"
 max_len = 170
-epochs = 2
+epochs = 50
 
-batch_size = 128
+batch_size = 64
 subset_size = 128
+subset_size = None
+
 category_dict = {
     "gossipcop": 0,
     "politifact": 1,

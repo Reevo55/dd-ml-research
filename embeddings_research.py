@@ -28,10 +28,10 @@ dropout = 0.2
 weight_decay = 0.0001
 save_param_dir = "./params"
 max_len = 170
-epochs = 2
+epochs = 50
 
-batch_size = 128
-subset_size = 128
+batch_size = 64
+subset_size = None
 category_dict = {
     "gossipcop": 0,
     "politifact": 1,
@@ -99,7 +99,7 @@ def perform_research(model_name, tokenizer, bert):
 
 if __name__ == "__main__":
     # Define the models, tokenizers, and BERT models to research
-    models = ["M3FEND", "MDFEND", "DualEmotion", "moSEM"]
+    models = ["MDFEND", "DualEmotion", "moSEM"]
     tokenizers = [
         BigBirdTokenizer.from_pretrained("google/bigbird-roberta-base"),
         ElectraTokenizer.from_pretrained("google/electra-base-discriminator"),
@@ -131,4 +131,4 @@ if __name__ == "__main__":
             all_results[key] = result
 
     # Save results as JSON
-    save_results("research_results", all_results)
+    save_results("embeddings_research", all_results)

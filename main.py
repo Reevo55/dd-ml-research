@@ -13,7 +13,11 @@ from transformers import RobertaConfig, RobertaModel
 
 from dataloader.MyDataloader import MyDataloader
 from utils.utils import save_results
+from pytorch_lightning.callbacks import EarlyStopping
 
+early_stop_callback = EarlyStopping(
+    monitor="val_loss", min_delta=0.00, patience=5, verbose=False, mode="min"
+)
 torch.set_float32_matmul_precision("medium")
 
 input_dim = 100
@@ -25,10 +29,11 @@ weight_decay = 0.0001
 save_param_dir = "./params"
 max_len = 170
 epochs = 50
+# epochs = 5
 
 batch_size = 64
 subset_size = 128
-# subset_size = None
+subset_size = None
 category_dict = {
     "gossipcop": 0,
     "politifact": 1,
@@ -82,7 +87,10 @@ if __name__ == "__main__":
 
     logger = TensorBoardLogger(save_dir="logs", name="single_runs", version=model_name)
     trainer = pl.Trainer(
-        max_epochs=epochs, accelerator="gpu", logger=logger, callbacks=callbacks
+        max_epochs=epochs,
+        accelerator="gpu",
+        logger=logger,
+        callbacks=[callbacks, early_stop_callback],
     )
     trainer.fit(model, train_loader, val_loader)
 

@@ -42,37 +42,18 @@ def data2gpu(batch, use_cuda):
 import torch
 
 
-def category_logs(log, category_dict, mode, label, label_pred, loss, loss_fn):
-    for category_name, category_idx in category_dict.items():
-        category_indices = (label == category_idx).nonzero(as_tuple=True)[0]
-
-        category_label = label[category_indices]
-        category_label_pred = label_pred[category_indices]
-
-        if len(category_label) == 0:
-            continue
-
-        category_loss = loss_fn(category_label_pred, category_label.float())
-        category_accuracy = torch.sum(
-            torch.round(category_label_pred) == category_label.float()
-        ).float() / len(category_label)
-
-        log(
-            f"{mode}_{category_name}_loss",
-            category_loss,
-            on_step=True,
-            on_epoch=True,
-            prog_bar=True,
-            logger=True,
-        )
-        log(
-            f"{mode}_{category_name}_accuracy",
-            category_accuracy,
-            on_step=True,
-            on_epoch=True,
-            prog_bar=True,
-            logger=True,
-        )
+def category_logs(log, category_dict, mode, label, label_pred, loss, loss_fn, category):
+    if category is not None:
+        for k, v in category_dict.items():
+            mask = category == v
+            if torch.sum(mask) > 0:
+                default_log(
+                    log,
+                    mode + "_" + k,
+                    label[mask],
+                    label_pred[mask],
+                    loss_fn(label_pred[mask], label[mask].float()),
+                )
 
     default_log(log, mode, label, label_pred, loss)
 
@@ -81,7 +62,7 @@ def default_log(log, mode, label, label_pred, loss):
     log(
         f"{mode}_loss",
         loss,
-        on_step=True,
+        on_step=False,
         on_epoch=True,
         prog_bar=True,
         logger=True,
@@ -90,13 +71,12 @@ def default_log(log, mode, label, label_pred, loss):
     log(
         f"{mode}_acc",
         accuracy,
-        on_step=True,
+        on_step=False,
         on_epoch=True,
         prog_bar=True,
         logger=True,
     )
 
-    # Calculate true positives, false positives, and false negatives
     true_positives = torch.sum(
         (torch.round(label_pred) == label.float()) & (label.float() == 1)
     ).float()
@@ -107,46 +87,31 @@ def default_log(log, mode, label, label_pred, loss):
         (torch.round(label_pred) != label.float()) & (label.float() == 1)
     ).float()
 
-    precision = true_positives / (
-        true_positives + false_positives + 1e-8
-    )  # Add a small epsilon to avoid division by zero
+    precision = true_positives / (true_positives + false_positives + 1e-8)
     recall = true_positives / (true_positives + false_negatives + 1e-8)
     f1_score = 2 * (precision * recall) / (precision + recall + 1e-8)
-    auc = roc_auc_score(label.cpu().detach().numpy(), label_pred.cpu().detach().numpy())
 
     log(
         f"{mode}_f1",
         f1_score,
-        on_step=True,
+        on_step=False,
         on_epoch=True,
-        prog_bar=True,
-        logger=True,
-    )
-
-    log(
-        f"{mode}_auc",
-        auc,
-        on_step=True,
-        on_epoch=True,
-        prog_bar=True,
         logger=True,
     )
 
     log(
         f"{mode}_recall",
         recall,
-        on_step=True,
+        on_step=False,
         on_epoch=True,
-        prog_bar=True,
         logger=True,
     )
 
     log(
         f"{mode}_precision",
         precision,
-        on_step=True,
+        on_step=False,
         on_epoch=True,
-        prog_bar=True,
         logger=True,
     )
 

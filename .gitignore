@@ -166,3 +166,7 @@ cython_debug/
 
 single_research_results/
 results/
+final_research/
+images/
+results/
+```
