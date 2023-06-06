@@ -7,6 +7,7 @@ from pytorch_lightning.loggers import TensorBoardLogger
 from transformers import RobertaModel
 from dataloader.MyDataloader import MyDataloader
 from utils.utils import save_results
+from pytorch_lightning.callbacks import EarlyStopping
 
 torch.set_float32_matmul_precision("medium")
 
@@ -72,6 +73,11 @@ if __name__ == "__main__":
         ).create_model(model_name)
 
         callbacks = []
+        early_stop_callback = EarlyStopping(
+            monitor="val_loss", min_delta=0.00, patience=5, verbose=False, mode="min"
+        )
+        callbacks.append(early_stop_callback)
+
         if callback is not None:
             callbacks.append(callback)
 

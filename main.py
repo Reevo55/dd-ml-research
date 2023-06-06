@@ -25,7 +25,7 @@ emb_dim = 768
 mlp_dims = [512, 256]
 lr = 0.0001
 dropout = 0.2
-weight_decay = 0.0001
+weight_decay = 0.001
 save_param_dir = "./params"
 max_len = 170
 epochs = 50
@@ -86,11 +86,16 @@ if __name__ == "__main__":
         callbacks.append(callback)
 
     logger = TensorBoardLogger(save_dir="logs", name="single_runs", version=model_name)
+
+    early_stop_callback = EarlyStopping(
+        monitor="val_loss", min_delta=0.00, patience=5, verbose=False, mode="min"
+    )
+    callbacks.append(early_stop_callback)
     trainer = pl.Trainer(
         max_epochs=epochs,
         accelerator="gpu",
         logger=logger,
-        callbacks=[callbacks, early_stop_callback],
+        callbacks=callbacks,
     )
     trainer.fit(model, train_loader, val_loader)
 

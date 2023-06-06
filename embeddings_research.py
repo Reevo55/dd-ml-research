@@ -15,6 +15,7 @@ from transformers import (
 from factories.ModelFactory import ModelFactory
 from dataloader.MyDataloader import MyDataloader
 from pytorch_lightning.loggers import TensorBoardLogger
+from pytorch_lightning.callbacks import EarlyStopping
 
 from utils.utils import save_results
 
@@ -76,6 +77,11 @@ def perform_research(model_name, tokenizer, bert):
     ).create_model(model_name)
 
     callbacks = []
+    early_stop_callback = EarlyStopping(
+        monitor="val_loss", min_delta=0.00, patience=5, verbose=False, mode="min"
+    )
+    callbacks.append(early_stop_callback)
+
     if callback is not None:
         callbacks.append(callback)
 
