@@ -164,8 +164,5 @@ cython_debug/
 
 .vscode/
 
-single_research_results/
-results/
-final_research/
 results/
 ```

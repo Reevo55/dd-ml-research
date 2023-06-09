@@ -1,0 +1,22 @@
+{
+  "test_gossipcop_loss": 0.2997940480709076,
+  "test_gossipcop_acc": 0.8760939240455627,
+  "test_gossipcop_f1": 0.683901309967041,
+  "test_gossipcop_recall": 0.5908629298210144,
+  "test_gossipcop_precision": 0.8117154836654663,
+  "test_politifact_loss": 0.409866064786911,
+  "test_politifact_acc": 0.8323699235916138,
+  "test_politifact_f1": 0.8053690791130066,
+  "test_politifact_recall": 0.6976743936538696,
+  "test_politifact_precision": 0.9523809552192688,
+  "test_COVID_loss": 0.10690352320671082,
+  "test_COVID_acc": 0.9675324559211731,
+  "test_COVID_f1": 0.9250935912132263,
+  "test_COVID_recall": 0.914814829826355,
+  "test_COVID_precision": 0.935606062412262,
+  "test_loss": 0.26149654388427734,
+  "test_acc": 0.8943796753883362,
+  "test_f1": 0.7454926371574402,
+  "test_recall": 0.662938117980957,
+  "test_precision": 0.8515325784683228
+}
