@@ -95,4 +95,4 @@ if __name__ == "__main__":
 
         all_results[model_name] = result[0]
 
-    save_results("results", "research_results", all_results)
+    save_results("results", "research_models", all_results)

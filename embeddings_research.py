@@ -1,3 +1,4 @@
+import tokenize
 import pytorch_lightning as pl
 import torch
 from transformers import (
@@ -11,6 +12,9 @@ from transformers import (
     DebertaModel,
     AlbertTokenizer,
     AlbertModel,
+    EfficientNetModel,
+    GPT2Tokenizer,
+    GPT2Model,
 )
 from factories.ModelFactory import ModelFactory
 from dataloader.MyDataloader import MyDataloader
@@ -105,28 +109,31 @@ def perform_research(model_name, tokenizer, bert):
 
 if __name__ == "__main__":
     # Define the models, tokenizers, and BERT models to research
-    models = ["MDFEND", "DualEmotion", "moSEM"]
+    models = ["DualEmotion"]
     tokenizers = [
-        BigBirdTokenizer.from_pretrained("google/bigbird-roberta-base"),
-        ElectraTokenizer.from_pretrained("google/electra-base-discriminator"),
-        XLMRobertaTokenizer.from_pretrained("xlm-roberta-base"),
-        DebertaTokenizer.from_pretrained("microsoft/deberta-base"),
+        # BigBirdTokenizer.from_pretrained("google/bigbird-roberta-base"),
+        # ElectraTokenizer.from_pretrained("google/electra-base-discriminator"),
+        # XLMRobertaTokenizer.from_pretrained("xlm-roberta-base"),
+        # DebertaTokenizer.from_pretrained("microsoft/deberta-base"),
         AlbertTokenizer.from_pretrained("albert-base-v2"),
     ]
+
     bert_models = [
-        BigBirdModel.from_pretrained("google/bigbird-roberta-base")
+        # BigBirdModel.from_pretrained("google/bigbird-roberta-base")
+        # .requires_grad_(False)
+        # .to("cuda"),
+        # ElectraModel.from_pretrained("google/electra-base-discriminator")
+        # .requires_grad_(False)
+        # .to("cuda"),
+        # XLMRobertaModel.from_pretrained("xlm-roberta-base")
+        # .requires_grad_(False)
+        # .to("cuda"),
+        # DebertaModel.from_pretrained("microsoft/deberta-base")
+        # .requires_grad_(False)
+        # .to("cuda"),
+        AlbertModel.from_pretrained("albert-base-v2")
         .requires_grad_(False)
         .to("cuda"),
-        ElectraModel.from_pretrained("google/electra-base-discriminator")
-        .requires_grad_(False)
-        .to("cuda"),
-        XLMRobertaModel.from_pretrained("xlm-roberta-base")
-        .requires_grad_(False)
-        .to("cuda"),
-        DebertaModel.from_pretrained("microsoft/deberta-base")
-        .requires_grad_(False)
-        .to("cuda"),
-        AlbertModel.from_pretrained("albert-base-v2").requires_grad_(False).to("cuda"),
     ]
 
     all_results = {}
@@ -137,4 +144,4 @@ if __name__ == "__main__":
             all_results[key] = result
 
     # Save results as JSON
-    save_results("embeddings_research", all_results)
+    save_results("embeddings_research", "embeddings", all_results)

@@ -1,3 +1,4 @@
+from models.MyProposition.M3FENDv2Module import M3FENDv2Module
 from models.DualEmotion.DualEmotionModule import DualEmotionModel
 from models.M3FEND.BestModelMemoryCallback import BestModelMemoryCallback
 from models.M3FEND.M3FENDModule import M3FENDModule
@@ -90,4 +91,21 @@ class ModelFactory:
                     bert=self.bert,
                 ),
                 BestMetricCallback(save_dir=self.save_param_dir, model_name="moSEM"),
+            )
+        elif model == "M3FENDv2":
+            return (
+                M3FENDv2Module(
+                    emb_dim=self.emb_dim,
+                    mlp_dims=self.mlp_dims,
+                    lr=self.lr,
+                    dropout=self.dropout,
+                    category_dict=self.category_dict,
+                    weight_decay=self.weight_decay,
+                    save_param_dir=self.save_param_dir,
+                    bert=self.bert,
+                    train_loader=self.train_loader,
+                ),
+                BestModelMemoryCallback(
+                    save_dir=self.save_param_dir, model_name="M3FENDv2"
+                ),
             )

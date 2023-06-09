@@ -5,6 +5,8 @@ from factories.ModelFactory import ModelFactory
 from transformers import (
     RobertaTokenizer,
     RobertaModel,
+    DebertaTokenizer,
+    DebertaModel,
 )
 import torch
 import torch.multiprocessing as mp
@@ -15,16 +17,13 @@ from dataloader.MyDataloader import MyDataloader
 from utils.utils import save_results
 from pytorch_lightning.callbacks import EarlyStopping
 
-early_stop_callback = EarlyStopping(
-    monitor="val_loss", min_delta=0.00, patience=5, verbose=False, mode="min"
-)
-torch.set_float32_matmul_precision("medium")
+torch.set_float32_matmul_precision("high")
 
 input_dim = 100
 emb_dim = 768
 mlp_dims = [512, 256]
-lr = 0.0001
-dropout = 0.2
+lr = 0.0002385038379415375
+dropout = 0.13705560783571308
 weight_decay = 0.001
 save_param_dir = "./params"
 max_len = 170
@@ -33,7 +32,7 @@ epochs = 50
 
 batch_size = 64
 subset_size = 128
-# subset_size = None
+subset_size = None
 category_dict = {
     "gossipcop": 0,
     "politifact": 1,
@@ -50,8 +49,13 @@ if __name__ == "__main__":
     if not os.path.exists(save_param_dir):
         os.makedirs(save_param_dir)
 
-    tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
-    bert = RobertaModel.from_pretrained("roberta-base").requires_grad_(False)
+    tokenizer = DebertaTokenizer.from_pretrained("microsoft/deberta-base")
+
+    bert = (
+        DebertaModel.from_pretrained("microsoft/deberta-base")
+        .requires_grad_(False)
+        .to("cuda")
+    )
 
     loader = MyDataloader(
         max_len=max_len,
@@ -66,7 +70,7 @@ if __name__ == "__main__":
     val_loader = loader.load_data(val_path, False)
     test_loader = loader.load_data(test_path, False)
 
-    model_name = "M3FEND"
+    model_name = "M3FENDv2"
 
     model, callback = ModelFactory(
         emb_dim=emb_dim,
@@ -85,10 +89,10 @@ if __name__ == "__main__":
     if callback is not None:
         callbacks.append(callback)
 
-    logger = TensorBoardLogger(save_dir="logs", name="single_runs", version=model_name)
+    logger = TensorBoardLogger(save_dir="logs", name="after_hyper", version=model_name)
 
     early_stop_callback = EarlyStopping(
-        monitor="val_loss", min_delta=0.00, patience=5, verbose=False, mode="min"
+        monitor="val_loss", min_delta=0.00, patience=3, verbose=False, mode="min"
     )
     callbacks.append(early_stop_callback)
     trainer = pl.Trainer(
@@ -103,4 +107,4 @@ if __name__ == "__main__":
 
     print("Results:", result[0])
 
-    save_results("single_research_results", model_name=model_name, results=result[0])
+    save_results("my_proposition_after_hyper", model_name=model_name, results=result[0])
