@@ -1,4 +1,4 @@
-# M3FEND: Multimodal Multitask Fake News Detection with PyTorch Lightning and TensorBoard
+# Fake news detection methods research and proposal for M3FENDv2
 
 ## Description
 
@@ -8,7 +8,6 @@ This is a modified version of the [ICTMCG/M3FEND](https://github.com/ICTMCG/M3FE
 
 - Compatibility with TensorBoard for visualizing the performance of the model and identifying bottlenecks in the code.
 - Utilizes the simplicity and flexibility of PyTorch Lightning to organize PyTorch code and easily run it on CPUs, GPUs or TPUs.
-- Pretrained RoBERTa model integration for text feature extraction.
 - Custom data loader for efficient data processing and preparation.
 - Extensive configurability for hyperparameters and training setup.
 
@@ -19,15 +18,6 @@ This is a modified version of the [ICTMCG/M3FEND](https://github.com/ICTMCG/M3FE
 - PyTorch Lightning
 - HuggingFace Transformers
 
-## Setup and Installation
-
-1. Clone this repository to your local machine.
-2. Install the required dependencies.
-
-```sh
-pip install -r requirements.txt
-```
-
 ## Usage
 
 After setting up the project, you can run the model training with the following command:
@@ -35,8 +25,6 @@ After setting up the project, you can run the model training with the following 
 ```sh
 python main.py
 ```
-
-This script trains a M3FEND model on the provided dataset. The model configuration can be adjusted in the script by modifying the hyperparameters at the top of the file.
 
 ## Output
 
